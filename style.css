@@ -40,7 +40,13 @@ header {
   width: 100px;
   height: 100px;
 }
-
+.themeIcon{
+  border: 1px solid red;
+}
+.themeIcon:hover{
+  background-color: red;
+  color: white;
+}
 h1{
   font-size: 3rem;
   font-weight: 100;
