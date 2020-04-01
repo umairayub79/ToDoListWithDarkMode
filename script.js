@@ -3,7 +3,7 @@ const themeIcon = document.getElementById("themeIcon");
 const input = document.getElementById("todo-input");
 const listContainer = document.getElementById("list-container");
 const buttonAdd = document.getElementById("button-add");
-
+const localStorage = window.localStorage;
 body.classList.add("light-theme");
 
 themeIcon.addEventListener("click", e => {
@@ -42,7 +42,7 @@ class TodoItem{
 
 
     editButton.addEventListener('click', () => this.editTodo(itemInput));
-    removeButton.addEventListener('click', () => this.removeTodo(item));
+    removeButton.addEventListener('click', () => this.removeTodo(item,itemInput.value));
     item.appendChild(itemInput);
     item.appendChild(editButton);
     item.appendChild(removeButton);
@@ -53,13 +53,16 @@ class TodoItem{
     editTodo(input){
       input.disabled = !input.disabled;
     }
-    removeTodo(item){
+    removeTodo(item,key){
+      console.log(key);
+      localStorage.removeItem(key);
       listContainer.removeChild(item);
     }
 }
 
 buttonAdd.addEventListener('click', function(){
     if(input.value != ""){
+      localStorage.setItem(input.value,input.value);
       new TodoItem(input.value);
       input.value = ""
     }
@@ -68,7 +71,13 @@ window.addEventListener('keydown', e => {
   if(e.which == 13){
     if(input.value != ""){
       new TodoItem(input.value);
+      localStorage.setItem(input.value,input.value);
       input.value = ""
     }
   }
+});
+const items = {...localStorage}; //Returns a object
+
+const array = Object.keys(items).map(function(key) {
+  return new TodoItem(items[key]);
 });
